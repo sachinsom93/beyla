@@ -64,7 +64,7 @@ RUN rc-update add startup default
 RUN cat <<EOF > /startup.sh
 #!/bin/sh
 
-cd /build && make $target
+cd /build && make $target && touch /build/testoutput/success
 poweroff
 EOF
 
