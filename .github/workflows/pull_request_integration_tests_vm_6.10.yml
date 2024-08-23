@@ -1,0 +1,13 @@
+name: Pull request integration tests on VM 6.10
+
+on:
+  push:
+    branches: [ 'main', 'release-*' ]
+  pull_request:
+    branches: [ 'main', 'release-*' ]
+
+jobs:
+  test:
+    uses: ./.github/workflows/workflow_integration_tests_vm.yml
+    with:
+      kernel: 'kernels/vmlinuz-linux-6.10.6'

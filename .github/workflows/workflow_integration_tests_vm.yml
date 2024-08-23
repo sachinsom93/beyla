@@ -1,10 +1,12 @@
 name: Pull request integration tests on VM
 
 on:
-  push:
-    branches: [ 'main', 'release-*' ]
-  pull_request:
-    branches: [ 'main', 'release-*' ]
+  workflow_call:
+    inputs:
+      kernel:
+        description: 'Path to the kernel image to use for the tests'
+        required: true
+        type: string
 
 jobs:
   test:
@@ -29,7 +31,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends qemu-utils qemu-system-x86
       - name: Run VM integration tests
         run: |
-          KERNEL=kernels/vmlinuz-linux-5.15.152 sudo make -C test/vm && [ -f testoutput/success ]
+          KERNEL=${{ inputs.kernel }} sudo make -C test/vm && [ -f testoutput/success ]
           sudo make -C test/vm change-owner
         timeout-minutes: 60
       - name: Upload integration test logs
